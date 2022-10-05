@@ -56,6 +56,9 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void updateClockBuffer (){
+
+}
 void display7SEG(int num) {
 	if (num ==0) {
 		HAL_GPIO_WritePin ( aa_GPIO_Port , aa_Pin ,	  GPIO_PIN_RESET );
@@ -184,7 +187,7 @@ case 3:
 	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  RESET );
-	display7SEG(1);
+	display7SEG(0);
 break ;
 default :
 break ;
@@ -196,6 +199,7 @@ break ;
   * @brief  The application entry point.
   * @retval int
   */
+int hour = 15, minute = 8, second = 50;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -229,9 +233,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
@@ -358,7 +364,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-int count = 200;
+int count = 0;
 int counter = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
@@ -369,7 +375,13 @@ if (counter < 0) {
 	HAL_GPIO_TogglePin ( ledred_GPIO_Port , ledred_Pin );
 	HAL_GPIO_TogglePin ( dot_GPIO_Port , dot_Pin );
 }
-if (count < 0) count = 200;
+
+if (count <= 0 ){
+	update7SEG(index_led++);
+	if (index_led > 3) index_led=0;
+	count = 50;
+}
+/*if (count < 0) count = 200;
 else if (count < 200 && count >=150 ) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, RESET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
@@ -397,7 +409,7 @@ else if (count <50 && count >=0) {
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, RESET) ;
 	display7SEG(0);
-}
+} */
 }
 /* USER CODE END 4 */
 
