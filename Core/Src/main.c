@@ -369,7 +369,12 @@ if (counter < 0) {
 	HAL_GPIO_TogglePin ( ledred_GPIO_Port , ledred_Pin );
 	HAL_GPIO_TogglePin ( dot_GPIO_Port , dot_Pin );
 }
-if (count < 0) count = 100;
+if (count <= 0 ){
+	update7SEG(index_led++);
+	if (index_led > 3) index_led=0;
+	count = 25;
+}
+/*if (count < 0) count = 100;
 else if (count < 100 && count >=75 ) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, RESET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
@@ -397,7 +402,7 @@ else if (count <25 && count >=0) {
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, RESET) ;
 	display7SEG(0);
-}
+} */
 }
 /* USER CODE END 4 */
 
