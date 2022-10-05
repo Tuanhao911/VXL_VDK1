@@ -148,6 +148,48 @@ void display7SEG(int num) {
 		HAL_GPIO_WritePin ( ag_GPIO_Port , ag_Pin ,	  GPIO_PIN_RESET );
 	}
 }
+
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer [4] = {1, 2, 3, 4};
+void update7SEG ( int index ){
+switch ( index ){
+case 0:
+// Display the first 7 SEG with led_buffer [0]
+	HAL_GPIO_WritePin ( E0_GPIO_Port , E0_Pin ,	  RESET );
+	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
+	display7SEG(1);
+break ;
+case 1:
+// Display the second 7 SEG with led_buffer [1]
+	HAL_GPIO_WritePin ( E0_GPIO_Port , E0_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  RESET );
+	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
+	display7SEG(2);
+break ;
+case 2:
+// Display the third 7 SEG with led_buffer [2]
+	HAL_GPIO_WritePin ( E0_GPIO_Port , E0_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  RESET );
+	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
+	display7SEG(3);
+break ;
+case 3:
+// Display the forth 7 SEG with led_buffer [3]
+	HAL_GPIO_WritePin ( E0_GPIO_Port , E0_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
+	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  RESET );
+	display7SEG(1);
+break ;
+default :
+break ;
+}
+}
 /* USER CODE END 0 */
 
 /**
