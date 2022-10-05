@@ -358,7 +358,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-int count = 200;
+int count = 100;
 int counter = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
@@ -369,29 +369,29 @@ if (counter < 0) {
 	HAL_GPIO_TogglePin ( ledred_GPIO_Port , ledred_Pin );
 	HAL_GPIO_TogglePin ( dot_GPIO_Port , dot_Pin );
 }
-if (count < 0) count = 200;
-else if (count < 200 && count >=150 ) {
+if (count < 0) count = 100;
+else if (count < 100 && count >=75 ) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, RESET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, SET) ;
 	display7SEG(1);
 }
-else if (count <150 && count >=100) {
+else if (count <75 && count >=50) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, SET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, RESET) ;
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, SET) ;
 	display7SEG(2);
 }
-else if (count <100 && count >=50) {
+else if (count <50 && count >=25) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, SET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, RESET) ;
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, SET) ;
 	display7SEG(3);
 }
-else if (count <50 && count >=0) {
+else if (count <25 && count >=0) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, SET) ;
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;

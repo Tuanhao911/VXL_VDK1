@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00020014  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00008248  00000000  00000000  0002003d  2**0
+ 12 .debug_info   000082bc  00000000  00000000  0002003d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 0000154c  00000000  00000000  00028285  2**0
+ 13 .debug_abbrev 00001543  00000000  00000000  000282f9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000938  00000000  00000000  000297d8  2**3
+ 14 .debug_aranges 00000940  00000000  00000000  00029840  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000890  00000000  00000000  0002a110  2**3
+ 15 .debug_ranges 00000898  00000000  00000000  0002a180  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001625a  00000000  00000000  0002a9a0  2**0
+ 16 .debug_macro  0001625a  00000000  00000000  0002aa18  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00009730  00000000  00000000  00040bfa  2**0
+ 17 .debug_line   0000976d  00000000  00000000  00040c72  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00081ca3  00000000  00000000  0004a32a  2**0
+ 18 .debug_str    00081cd1  00000000  00000000  0004a3df  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000cbfcd  2**0
+ 19 .comment      00000053  00000000  00000000  000cc0b0  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000025f4  00000000  00000000  000cc020  2**2
+ 20 .debug_frame  00002618  00000000  00000000  000cc104  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -848,7 +848,7 @@ static void MX_GPIO_Init(void)
 08000630 <HAL_TIM_PeriodElapsedCallback>:
 
 /* USER CODE BEGIN 4 */
-int count = 200;
+int count = 100;
 int counter = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
@@ -886,13 +886,13 @@ if (counter < 0) {
  8000664:	484d      	ldr	r0, [pc, #308]	; (800079c <HAL_TIM_PeriodElapsedCallback+0x16c>)
  8000666:	f000 fc57 	bl	8000f18 <HAL_GPIO_TogglePin>
 }
-if (count < 0) count = 200;
+if (count < 0) count = 100;
  800066a:	4b4a      	ldr	r3, [pc, #296]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  800066c:	681b      	ldr	r3, [r3, #0]
  800066e:	2b00      	cmp	r3, #0
  8000670:	da03      	bge.n	800067a <HAL_TIM_PeriodElapsedCallback+0x4a>
  8000672:	4b48      	ldr	r3, [pc, #288]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
- 8000674:	22c8      	movs	r2, #200	; 0xc8
+ 8000674:	2264      	movs	r2, #100	; 0x64
  8000676:	601a      	str	r2, [r3, #0]
 	HAL_GPIO_WritePin(E1_GPIO_Port, E1_Pin, SET) ;
 	HAL_GPIO_WritePin(E2_GPIO_Port, E2_Pin, SET) ;
@@ -901,14 +901,14 @@ if (count < 0) count = 200;
 }
 }
  8000678:	e087      	b.n	800078a <HAL_TIM_PeriodElapsedCallback+0x15a>
-else if (count < 200 && count >=150 ) {
+else if (count < 100 && count >=75 ) {
  800067a:	4b46      	ldr	r3, [pc, #280]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  800067c:	681b      	ldr	r3, [r3, #0]
- 800067e:	2bc7      	cmp	r3, #199	; 0xc7
+ 800067e:	2b63      	cmp	r3, #99	; 0x63
  8000680:	dc1d      	bgt.n	80006be <HAL_TIM_PeriodElapsedCallback+0x8e>
  8000682:	4b44      	ldr	r3, [pc, #272]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  8000684:	681b      	ldr	r3, [r3, #0]
- 8000686:	2b95      	cmp	r3, #149	; 0x95
+ 8000686:	2b4a      	cmp	r3, #74	; 0x4a
  8000688:	dd19      	ble.n	80006be <HAL_TIM_PeriodElapsedCallback+0x8e>
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, RESET) ;
  800068a:	2200      	movs	r2, #0
@@ -934,14 +934,14 @@ else if (count < 200 && count >=150 ) {
  80006b6:	2001      	movs	r0, #1
  80006b8:	f7ff fd48 	bl	800014c <display7SEG>
  80006bc:	e065      	b.n	800078a <HAL_TIM_PeriodElapsedCallback+0x15a>
-else if (count <150 && count >=100) {
+else if (count <75 && count >=50) {
  80006be:	4b35      	ldr	r3, [pc, #212]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  80006c0:	681b      	ldr	r3, [r3, #0]
- 80006c2:	2b95      	cmp	r3, #149	; 0x95
+ 80006c2:	2b4a      	cmp	r3, #74	; 0x4a
  80006c4:	dc1d      	bgt.n	8000702 <HAL_TIM_PeriodElapsedCallback+0xd2>
  80006c6:	4b33      	ldr	r3, [pc, #204]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  80006c8:	681b      	ldr	r3, [r3, #0]
- 80006ca:	2b63      	cmp	r3, #99	; 0x63
+ 80006ca:	2b31      	cmp	r3, #49	; 0x31
  80006cc:	dd19      	ble.n	8000702 <HAL_TIM_PeriodElapsedCallback+0xd2>
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, SET) ;
  80006ce:	2201      	movs	r2, #1
@@ -967,14 +967,14 @@ else if (count <150 && count >=100) {
  80006fa:	2002      	movs	r0, #2
  80006fc:	f7ff fd26 	bl	800014c <display7SEG>
  8000700:	e043      	b.n	800078a <HAL_TIM_PeriodElapsedCallback+0x15a>
-else if (count <100 && count >=50) {
+else if (count <50 && count >=25) {
  8000702:	4b24      	ldr	r3, [pc, #144]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  8000704:	681b      	ldr	r3, [r3, #0]
- 8000706:	2b63      	cmp	r3, #99	; 0x63
+ 8000706:	2b31      	cmp	r3, #49	; 0x31
  8000708:	dc1d      	bgt.n	8000746 <HAL_TIM_PeriodElapsedCallback+0x116>
  800070a:	4b22      	ldr	r3, [pc, #136]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  800070c:	681b      	ldr	r3, [r3, #0]
- 800070e:	2b31      	cmp	r3, #49	; 0x31
+ 800070e:	2b18      	cmp	r3, #24
  8000710:	dd19      	ble.n	8000746 <HAL_TIM_PeriodElapsedCallback+0x116>
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, SET) ;
  8000712:	2201      	movs	r2, #1
@@ -1000,10 +1000,10 @@ else if (count <100 && count >=50) {
  800073e:	2003      	movs	r0, #3
  8000740:	f7ff fd04 	bl	800014c <display7SEG>
  8000744:	e021      	b.n	800078a <HAL_TIM_PeriodElapsedCallback+0x15a>
-else if (count <50 && count >=0) {
+else if (count <25 && count >=0) {
  8000746:	4b13      	ldr	r3, [pc, #76]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  8000748:	681b      	ldr	r3, [r3, #0]
- 800074a:	2b31      	cmp	r3, #49	; 0x31
+ 800074a:	2b18      	cmp	r3, #24
  800074c:	dc1d      	bgt.n	800078a <HAL_TIM_PeriodElapsedCallback+0x15a>
  800074e:	4b11      	ldr	r3, [pc, #68]	; (8000794 <HAL_TIM_PeriodElapsedCallback+0x164>)
  8000750:	681b      	ldr	r3, [r3, #0]
