@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "software_timer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -161,7 +161,7 @@ case 0:
 	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
-	display7SEG(1);
+	display7SEG(led_buffer[index]);
 break ;
 case 1:
 // Display the second 7 SEG with led_buffer [1]
@@ -169,7 +169,7 @@ case 1:
 	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  RESET );
 	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
-	display7SEG(2);
+	display7SEG(led_buffer[index]);
 break ;
 case 2:
 // Display the third 7 SEG with led_buffer [2]
@@ -177,7 +177,7 @@ case 2:
 	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  RESET );
 	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  SET );
-	display7SEG(3);
+	display7SEG(led_buffer[index]);
 break ;
 case 3:
 // Display the forth 7 SEG with led_buffer [3]
@@ -185,7 +185,7 @@ case 3:
 	HAL_GPIO_WritePin ( E1_GPIO_Port , E1_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E2_GPIO_Port , E2_Pin ,	  SET );
 	HAL_GPIO_WritePin ( E3_GPIO_Port , E3_Pin ,	  RESET );
-	display7SEG(0);
+	display7SEG(led_buffer[index]);
 break ;
 default :
 break ;
@@ -197,6 +197,33 @@ void updateClockBuffer() {
 	led_buffer[1] = hour%10;
 	led_buffer[2] = minute/10;
 	led_buffer[3] = minute%10;
+}
+//
+int timer1_counter = 0;
+int timer1_flag = 0;
+int TIMER_CYCLE = 10;
+void setTimer1 ( int duration ) {
+timer1_counter = duration / TIMER_CYCLE ;
+timer1_flag = 0;
+}
+void timer_run () {
+if ( timer1_counter > 0) {
+timer1_counter --;
+if ( timer1_counter == 0) timer1_flag = 1;
+}
+}
+//
+int timer2_counter = 0;
+int timer2_flag = 0;
+void setTimer2 ( int duration ) {
+timer2_counter = duration / TIMER_CYCLE ;
+timer2_flag = 0;
+}
+void timer2_run () {
+if ( timer2_counter > 0) {
+timer2_counter --;
+if ( timer2_counter == 0) timer2_flag = 1;
+}
 }
 /* USER CODE END 0 */
 
@@ -235,31 +262,41 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setTimer1 (1000) ;
+  setTimer2(250);
   while (1)
   {
-	  second ++;
-	  if ( second >= 60) {
-	  second = 0;
-	  minute ++;
+	  if (timer2_flag == 1) {
+		  update7SEG(index_led++);
+			  if (index_led > 3) {index_led=0; }
+			  setTimer2(250);
 	  }
-	  if( minute >= 60) {
-	  minute = 0;
-	  hour ++;
+	  //
+	  if ( timer1_flag == 1) {
+		  second ++;
+		 	  if ( second >= 60) {
+		 	  second = 0;
+		 	  minute ++;
+		 	  }
+		 	  if( minute >= 60) {
+		 	  minute = 0;
+		 	  hour ++;
+		 	  }
+		 	  if( hour >=24){
+		 	  hour = 0;
+		 	  }
+		 	updateClockBuffer ();
+		  	HAL_GPIO_TogglePin ( ledred_GPIO_Port , ledred_Pin );
+		  	HAL_GPIO_TogglePin ( dot_GPIO_Port , dot_Pin );
+	  setTimer1 (1000) ;
+
 	  }
-	  if( hour >=24){
-	  hour = 0;
-	  }
-	updateClockBuffer ();
-	  HAL_Delay (1000) ;
+	  //
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  counter --;
-	  if (counter < 0) {
-	  	counter = 100;
-	  	HAL_GPIO_TogglePin ( ledred_GPIO_Port , ledred_Pin );
-	  	HAL_GPIO_TogglePin ( dot_GPIO_Port , dot_Pin );
-	  }
+
+
   }
   /* USER CODE END 3 */
 }
@@ -386,17 +423,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-int count = 100;
-int counter = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
-count --;
-if (count <= 0 ){
-	update7SEG(index_led++);
-	if (index_led > 3) index_led=0;
-	count = 25;
-}
 timer_run ();
+timer2_run();
+}
 /*if (count < 0) count = 100;
 else if (count < 100 && count >=75 ) {
 	HAL_GPIO_WritePin(E0_GPIO_Port, E0_Pin, RESET) ;
@@ -426,7 +457,7 @@ else if (count <25 && count >=0) {
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, RESET) ;
 	display7SEG(0);
 } */
-}
+
 /* USER CODE END 4 */
 
 /**
