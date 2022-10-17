@@ -212,19 +212,6 @@ timer1_counter --;
 if ( timer1_counter == 0) timer1_flag = 1;
 }
 }
-//
-int timer2_counter = 0;
-int timer2_flag = 0;
-void setTimer2 ( int duration ) {
-timer2_counter = duration / TIMER_CYCLE ;
-timer2_flag = 0;
-}
-void timer2_run () {
-if ( timer2_counter > 0) {
-timer2_counter --;
-if ( timer2_counter == 0) timer2_flag = 1;
-}
-}
 /* USER CODE END 0 */
 
 /**
@@ -263,15 +250,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1 (1000) ;
-  setTimer2(250);
   while (1)
   {
-	  if (timer2_flag == 1) {
-		  update7SEG(index_led++);
-			  if (index_led > 3) {index_led=0; }
-			  setTimer2(250);
-	  }
-	  //
 	  if ( timer1_flag == 1) {
 		  second ++;
 		 	  if ( second >= 60) {
@@ -423,10 +403,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int count = 100;
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
 timer_run ();
-timer2_run();
+count --;
+if (count <= 0 ){
+	update7SEG(index_led++);
+	if (index_led > 3) index_led=0;
+	count = 25;
 }
 /*if (count < 0) count = 100;
 else if (count < 100 && count >=75 ) {
@@ -457,7 +442,7 @@ else if (count <25 && count >=0) {
 	HAL_GPIO_WritePin(E3_GPIO_Port, E3_Pin, RESET) ;
 	display7SEG(0);
 } */
-
+}
 /* USER CODE END 4 */
 
 /**
