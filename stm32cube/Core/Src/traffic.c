@@ -21,7 +21,7 @@ void set_traffic2_red(){
 void set_traffic1_green(){
 	HAL_GPIO_WritePin(d1_GPIO_Port, d1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(x1_GPIO_Port, x1_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(v1_GPIO_Port, LED_YELLOW1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(v1_GPIO_Port, v1_Pin, GPIO_PIN_SET);
 }
 
 void set_traffic2_green(){
